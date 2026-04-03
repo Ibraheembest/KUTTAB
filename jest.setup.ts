@@ -5,7 +5,12 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('react-native', () => {
   const RN = jest.requireActual('react-native');
-  RN.I18nManager.isRTL = true;
-  RN.I18nManager.forceRTL = jest.fn();
-  return RN;
+  return {
+    ...RN,
+    I18nManager: {
+      ...RN.I18nManager,
+      isRTL: true,
+      forceRTL: jest.fn(),
+    },
+  };
 });

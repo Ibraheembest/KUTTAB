@@ -16,16 +16,27 @@ export const XP_MAP = {
 } as const;
 
 export function calculateAttendanceXP(status: AttendanceStatus): number {
-  return XP_MAP.attendance[status] || 0;
+  if (!(status in XP_MAP.attendance)) {
+    throw new Error(`Unknown attendance status: ${status}`);
+  }
+  return XP_MAP.attendance[status];
 }
 
+export function calculateProgressXP(subject: 'matn'): number;
+export function calculateProgressXP(subject: 'quran', type: QuranSessionType): number;
 export function calculateProgressXP(subject: ProgressSubject, type?: QuranSessionType): number {
   if (subject === 'matn') {
     return XP_MAP.progress.matn;
   }
-  if (subject === 'quran' && type) {
-    if (type === 'hifz') return XP_MAP.progress.quran_hifz;
-    if (type === 'muraja_ah') return XP_MAP.progress.quran_muraja_ah;
+  if (subject === 'quran') {
+    if (!type) {
+      throw new Error("calculateProgressXP requires a 'type' when subject is 'quran'");
+    }
+    const key = `quran_${type}` as keyof typeof XP_MAP.progress;
+    if (!(key in XP_MAP.progress)) {
+      throw new Error(`Unknown quran session type: ${type}`);
+    }
+    return XP_MAP.progress[key];
   }
-  return 0;
+  throw new Error(`Unknown progress subject: ${subject}`);
 }

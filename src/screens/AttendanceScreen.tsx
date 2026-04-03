@@ -1,11 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { screenStyles } from '../theme/screenStyles';
+import { PlaceholderScreen } from './PlaceholderScreen';
 
 export function AttendanceScreen() {
-  return (
-    <View style={screenStyles.placeholder}>
-      <Text style={screenStyles.placeholderText}>سجل الحضور</Text>
-    </View>
-  );
+  return <PlaceholderScreen label="الحضور" />;
 }

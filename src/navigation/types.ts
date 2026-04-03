@@ -5,3 +5,9 @@ export type RootStackParamList = {
   Progress: undefined;
   Leaderboard: undefined;
 };
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}

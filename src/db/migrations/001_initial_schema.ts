@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS halaqah_memberships (
   joined_at TEXT NOT NULL,
   left_at TEXT,
   updated_at TEXT NOT NULL,
-  FOREIGN KEY(student_id) REFERENCES students(id),
-  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id)
+  FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE,
+  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_halaqah_memberships_active ON halaqah_memberships(student_id, left_at);
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS attendance_records (
   xp_earned INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  FOREIGN KEY(student_id) REFERENCES students(id),
-  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id),
+  FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE,
+  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id) ON DELETE CASCADE,
   UNIQUE(student_id, session_date)
 );
 
@@ -64,7 +64,9 @@ CREATE TABLE IF NOT EXISTS progress_sessions (
   xp_earned INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  FOREIGN KEY(student_id) REFERENCES students(id),
-  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id)
+  FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE,
+  FOREIGN KEY(halaqah_id) REFERENCES halaqat(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_progress_sessions_student_date ON progress_sessions(student_id, session_date);
 `;

@@ -13,7 +13,7 @@ if (!I18nManager.isRTL) {
 }
 
 export default function App() {
-  const fontsLoaded = useFonts();
+  const { fontsLoaded, fontError } = useFonts();
   const [isReady, setIsReady] = useState(false);
   const [dbError, setDbError] = useState<Error | null>(null);
 
@@ -36,7 +36,7 @@ export default function App() {
   }, []);
 
   // Loading state — use system font only (Cairo not yet loaded)
-  if (!fontsLoaded || (!isReady && !dbError)) {
+  if ((!fontsLoaded && !fontError) || (!isReady && !dbError)) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#1A5F7A" />
